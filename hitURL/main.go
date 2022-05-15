@@ -9,11 +9,15 @@ import (
 //에러 변수 생성
 var errRequestFailed = errors.New("Request failed")
 
+type result struct{
+	url string
+	status string
+}
 
 func main() {
-	//map 초기화 방법
-	results := map[string]string{}
-	//슬라이스
+	// 채널 선언
+	c := make(chan result)
+	// 슬라이스
 	urls := []string{
 		"https://www.airbnb.com/",
 		"https://www.google.com/",
@@ -26,28 +30,21 @@ func main() {
 	//슬라이스의 range 형태, 슬라이스의 첫번째 값은 인덱스
 	//에러 컨트롤
 	for _,url := range urls {
-		result := "OK"
-		err := hitURL(url)
-		if err != nil{
-			result = "Failed"
-		}
-		results[url] = result
+		go hitURL(url, c)
 	}
-	//map의 range 형태
-	for url, result := range(results){
-		fmt.Println(url, result)
+	for i:=0;i<len(urls);i++{
+		fmt.Println(<-c)
 	}
 }
-
-func hitURL(url string) error {
-
-	fmt.Println("Checking url : ",url)
+// c chan<-result 는 전송전용
+func hitURL(url string, c chan<- result){
 	//url 체크 메서드
 	resp, err := http.Get(url)
+	status := "OK"
 	//statusCode 방법
 	if err != nil || resp.StatusCode >= 400{
-		fmt.Println(err)
-		return errRequestFailed
-	}
-	return nil
+		status = "Failed"
+	} 
+	//채널에 데이터 전송
+	c <- result{url:url, status:status}
 }

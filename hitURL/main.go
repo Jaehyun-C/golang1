@@ -8,13 +8,14 @@ import (
 
 //에러 변수 생성
 var errRequestFailed = errors.New("Request failed")
-
+ 
 type result struct{
 	url string
 	status string
 }
 
 func main() {
+	resultMap := make(map[string]string)
 	// 채널 선언
 	c := make(chan result)
 	// 슬라이스
@@ -33,7 +34,12 @@ func main() {
 		go hitURL(url, c)
 	}
 	for i:=0;i<len(urls);i++{
-		fmt.Println(<-c)
+		results := <-c
+		resultMap[results.url] = results.status
+	}
+
+	for url, status := range resultMap{
+		fmt.Println(url, status)
 	}
 }
 // c chan<-result 는 전송전용

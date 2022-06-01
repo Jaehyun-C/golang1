@@ -1,4 +1,20 @@
-## This page is my first golang study page
-## Start Date : 22.05.05
+# Go [basic]
 
-# thanks!!
+- go 설치와 환경설정
+- 변수,상수
+- 데이터 타입
+- 연산자
+- 조건문
+- 반복문
+- 함수
+- 배열
+- 슬라이스
+- 맵
+- 구조체
+- import와 패키지
+- 포인터, 메소드
+- 인터페이스
+- 에러처리
+- defer, panic
+- 고루틴
+- 채널

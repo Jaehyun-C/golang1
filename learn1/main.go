@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/learn1/accounts"
+	"github.com/Jaehyun-C/golang1/learn1/accounts"
 )
 
 func main() {
@@ -11,15 +11,13 @@ func main() {
 	account.Deposit(100)
 	err := account.Withdraw(200)
 
-	if err != nil{
+	if err != nil {
 		//log.Fatalln(err)
 		fmt.Println(err)
 	}
-	
+
 	fmt.Println(account.Balance(), account.Owner())
 	fmt.Println("-----------------------")
 	fmt.Println(account)
 
 }
-
-
